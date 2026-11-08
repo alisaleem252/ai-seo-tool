@@ -1,0 +1,19 @@
+{
+  "name": "ai-seo-tool",
+  "version": "1.0.0",
+  "description": "AI SEO toolkit powered by the RapidTextAI API: competitor gap analysis, content refresh, fact-check, originality check, brand-from-URL and embed finder. CLI and local web UI.",
+  "type": "module",
+  "bin": { "ai-seo-tool": "bin/cli.js" },
+  "scripts": {
+    "start": "node server.js",
+    "demo": "node test/mock-api.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": { "node": ">=18" },
+  "keywords": ["seo", "ai", "seo-tools", "content-optimization", "competitor-analysis", "content-gap", "fact-checking", "plagiarism-checker", "content-refresh", "serp", "rapidtextai", "cli", "nodejs"],
+  "repository": { "type": "git", "url": "git+https://github.com/alisaleem252/ai-seo-tool.git" },
+  "homepage": "https://github.com/alisaleem252/ai-seo-tool#readme",
+  "bugs": { "url": "https://github.com/alisaleem252/ai-seo-tool/issues" },
+  "files": ["bin", "src", "public", "server.js", ".env.example", "README.md"],
+  "dependencies": {}
+}
