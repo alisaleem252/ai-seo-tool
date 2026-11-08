@@ -23,6 +23,16 @@ export class SeoClient {
     if (!this.apiKey) throw new RapidTextAIError('Missing API key. Set RAPIDTEXTAI_API_KEY in .env (see .env.example) or pass --key.');
   }
 
+  /**
+   * Build a request URL. The key is also sent as ?gigsixkey= because the production server currently
+   * ignores the Authorization header (verified live on 2026-11-08); the Bearer header is still sent too.
+   */
+  _url(path) {
+    const u = new URL(`${this.baseUrl}${path}`);
+    u.searchParams.set('gigsixkey', this.apiKey);
+    return u.toString();
+  }
+
   _headers(extra = {}) {
     return { Authorization: `Bearer ${this.apiKey}`, 'Content-Type': 'application/json', ...extra };
   }
@@ -36,13 +46,13 @@ export class SeoClient {
   }
 
   async capabilities() {
-    const res = await fetch(`${this.baseUrl}/v2/seo/capabilities`, { headers: this._headers() });
+    const res = await fetch(this._url(`/v2/seo/capabilities`), { headers: this._headers() });
     if (!res.ok) await this._fail(res);
     return res.json();
   }
 
   async models() {
-    const res = await fetch(`${this.baseUrl}/v1/models`, { headers: this._headers() });
+    const res = await fetch(this._url(`/v1/models`), { headers: this._headers() });
     if (!res.ok) await this._fail(res);
     return res.json();
   }
@@ -54,7 +64,7 @@ export class SeoClient {
   async run(tool, body, { onEvent, signal } = {}) {
     const def = TOOLS[tool];
     if (!def) throw new RapidTextAIError(`Unknown tool "${tool}".`);
-    const res = await fetch(`${this.baseUrl}/v2/seo/${def.endpoint}`, {
+    const res = await fetch(this._url(`/v2/seo/${def.endpoint}`), {
       method: 'POST',
       headers: this._headers({ Accept: 'text/event-stream' }),
       body: JSON.stringify({ ...body, stream: true }),

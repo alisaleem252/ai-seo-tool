@@ -43,7 +43,7 @@ test('run() posts to the right endpoint with bearer auth and returns the result'
   const r = await c.run('originality', { text: 'x' }, { onEvent: (e) => events.push(e.type) });
   srv.close();
   assert.equal(r.score, 90);
-  assert.equal(seen.url, '/openai/v2/seo/originality');
+  assert.equal(seen.url, '/openai/v2/seo/originality?gigsixkey=k');
   assert.equal(seen.auth, 'Bearer k');
   assert.equal(seen.body.stream, true);
   assert.deepEqual(events, ['progress', 'result']);
